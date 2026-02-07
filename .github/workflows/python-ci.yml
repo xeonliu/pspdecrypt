@@ -37,13 +37,6 @@ jobs:
       run: |
         brew install openssl zlib
     
-    - name: Install system dependencies (Windows)
-      if: runner.os == 'Windows'
-      shell: msys2 {0}
-      run: |
-        pacman -S --noconfirm mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib
-      continue-on-error: true
-    
     - name: Setup MSYS2 (Windows)
       if: runner.os == 'Windows'
       uses: msys2/setup-msys2@v2

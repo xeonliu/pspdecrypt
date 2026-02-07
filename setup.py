@@ -55,7 +55,6 @@ setup(
     name='pspdecrypt',
     version='1.0.0',
     author='pspdecrypt contributors',
-    author_email='',
     description='Python bindings for PSP decryption library',
     long_description=open('README_PYTHON.md').read() if os.path.exists('README_PYTHON.md') else '',
     long_description_content_type='text/markdown',
