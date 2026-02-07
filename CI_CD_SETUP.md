@@ -9,20 +9,37 @@ This repository is configured with GitHub Actions workflows for automated testin
 This workflow runs on every push and pull request to the `master` branch.
 
 **Testing:**
-- Tests across multiple platforms: Ubuntu, Windows, macOS
+- Tests across multiple platforms: Ubuntu and macOS
 - Tests Python versions: 3.7, 3.8, 3.9, 3.10, 3.11, 3.12
 - Installs system dependencies (OpenSSL, zlib)
 - Builds the package
 - Runs test suite
+- Note: Windows testing is done via cibuildwheel (see below)
 
 **Building:**
-- Builds binary wheels for all platforms using `cibuildwheel`
+- Builds binary wheels for all platforms (Linux, Windows, macOS) using `cibuildwheel`
 - Builds source distribution (sdist)
 - Uploads artifacts for distribution
 
 **Publishing:**
 - Automatically publishes to PyPI when a release is created
 - Publishes to Test PyPI on pushes to master branch (for testing)
+
+## Platform-Specific Notes
+
+### Windows Build Support
+The package has been configured for cross-platform compatibility:
+- **Compiler Flags**: Automatically detects MSVC on Windows and uses appropriate flags (`/O2 /std:c++14`) vs GCC/Clang flags on Unix (`-O3 -std=c++11 -Wno-deprecated-declarations`)
+- **Library Linking**: Uses `libcrypto` and `zlib` on Windows, `crypto` and `z` on Unix-like systems
+- **CI Testing**: Windows builds are tested via `cibuildwheel` which handles the complex Windows build environment
+
+### macOS Build Support
+- Uses Homebrew to install OpenSSL and zlib dependencies
+- Supports both x86_64 and arm64 (Apple Silicon) architectures via cibuildwheel
+
+### Linux Build Support
+- Supports multiple distributions via cibuildwheel
+- Uses standard package managers (apt, yum) for dependencies
 
 ## PyPI Publishing
 
