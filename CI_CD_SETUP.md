@@ -14,12 +14,12 @@ This workflow runs on every push and pull request to the `master` branch.
 - Installs system dependencies (OpenSSL, zlib)
 - Builds the package
 - Runs test suite
-- Note: Windows testing is done via cibuildwheel (see below)
 
 **Building:**
-- Builds binary wheels for all platforms (Linux, Windows, macOS) using `cibuildwheel`
-- Builds source distribution (sdist)
+- Builds binary wheels for Linux and macOS using `cibuildwheel`
+- Builds source distribution (sdist) for all platforms including Windows
 - Uploads artifacts for distribution
+- Note: Windows users can build from source using the sdist
 
 **Publishing:**
 - Automatically publishes to PyPI when a release is created
@@ -28,18 +28,26 @@ This workflow runs on every push and pull request to the `master` branch.
 ## Platform-Specific Notes
 
 ### Windows Build Support
-The package has been configured for cross-platform compatibility:
-- **Compiler Flags**: Automatically detects MSVC on Windows and uses appropriate flags (`/O2 /std:c++14`) vs GCC/Clang flags on Unix (`-O3 -std=c++11 -Wno-deprecated-declarations`)
-- **Library Linking**: Uses `libcrypto` and `zlib` on Windows, `crypto` and `z` on Unix-like systems
-- **CI Testing**: Windows builds are tested via `cibuildwheel` which handles the complex Windows build environment
+The package code has been updated for Windows compatibility with platform-specific compiler flags:
+- **Compiler Flags**: Automatically detects MSVC on Windows and uses `/O2 /std:c++14`
+- **Library Linking**: Configured for `libcrypto` and `zlib` on Windows
+
+**Current Limitation**: Pre-built Windows wheels are not currently provided via PyPI due to OpenSSL/zlib dependency complexity. Windows users can build from source by:
+1. Installing Visual Studio with C++ support
+2. Installing OpenSSL and zlib (via vcpkg, chocolatey, or manual installation)
+3. Running `pip install pspdecrypt --no-binary :all:` to build from source
+
+Contributions to improve Windows wheel building are welcome!
 
 ### macOS Build Support
 - Uses Homebrew to install OpenSSL and zlib dependencies
 - Supports both x86_64 and arm64 (Apple Silicon) architectures via cibuildwheel
+- Pre-built wheels available for all supported Python versions
 
 ### Linux Build Support
-- Supports multiple distributions via cibuildwheel
+- Supports multiple distributions via cibuildwheel (manylinux)
 - Uses standard package managers (apt, yum) for dependencies
+- Pre-built wheels available for all supported Python versions
 
 ## PyPI Publishing
 

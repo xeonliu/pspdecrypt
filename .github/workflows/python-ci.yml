@@ -62,7 +62,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     
     steps:
     - uses: actions/checkout@v4
@@ -71,14 +71,12 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.2
       env:
         CIBW_BUILD: "cp37-* cp38-* cp39-* cp310-* cp311-* cp312-*"
+        # Skip musllinux builds due to OpenSSL/zlib compatibility issues
         CIBW_SKIP: "*-musllinux_*"
         CIBW_BEFORE_BUILD_LINUX: "yum install -y openssl-devel zlib-devel || apt-get update && apt-get install -y libssl-dev zlib1g-dev"
         CIBW_BEFORE_BUILD_MACOS: "brew install openssl zlib || true"
-        CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel && choco install openssl -y --no-progress"
-        CIBW_ENVIRONMENT_WINDOWS: "INCLUDE='C:\\Program Files\\OpenSSL-Win64\\include;C:\\Program Files\\OpenSSL\\include' LIB='C:\\Program Files\\OpenSSL-Win64\\lib;C:\\Program Files\\OpenSSL\\lib'"
         CIBW_TEST_COMMAND: "python {project}/test_python.py"
         CIBW_TEST_REQUIRES: "pybind11>=2.6.0"
-        CIBW_TEST_SKIP: "*-win*"
     
     - uses: actions/upload-artifact@v4
       with:
