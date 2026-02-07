@@ -21,10 +21,10 @@ jobs:
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
     
@@ -76,7 +76,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.2
@@ -89,7 +89,7 @@ jobs:
         CIBW_TEST_COMMAND: "python {project}/test_python.py"
         CIBW_TEST_REQUIRES: "pybind11>=2.6.0"
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: wheels-${{ matrix.os }}
         path: ./wheelhouse/*.whl
@@ -100,10 +100,10 @@ jobs:
     permissions:
       contents: read
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     
@@ -115,7 +115,7 @@ jobs:
     - name: Build sdist
       run: python -m build --sdist
     
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: source-distribution
         path: dist/*.tar.gz
@@ -133,7 +133,7 @@ jobs:
     
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: dist-artifacts
     
@@ -159,7 +159,7 @@ jobs:
     
     steps:
     - name: Download all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: dist-artifacts
     
