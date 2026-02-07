@@ -40,11 +40,38 @@ sources = [
 extra_compile_args = []
 extra_link_args = []
 libraries = []
+include_dirs = [
+    get_pybind_include(),
+    '.',
+    './libkirk',
+]
+library_dirs = []
 
 if sys.platform == 'win32':
     # MSVC compiler flags
     extra_compile_args = ['/O2', '/std:c++14']
-    # Windows OpenSSL and zlib libraries
+    
+    # Try to find vcpkg installation
+    vcpkg_root = os.environ.get('VCPKG_ROOT')
+    if not vcpkg_root:
+        # Common vcpkg installation locations
+        possible_vcpkg = [
+            'C:/vcpkg',
+            os.path.expanduser('~/vcpkg'),
+        ]
+        for path in possible_vcpkg:
+            if os.path.exists(path):
+                vcpkg_root = path
+                break
+    
+    if vcpkg_root:
+        # Add vcpkg include and lib directories
+        vcpkg_installed = os.path.join(vcpkg_root, 'installed', 'x64-windows')
+        if os.path.exists(vcpkg_installed):
+            include_dirs.append(os.path.join(vcpkg_installed, 'include'))
+            library_dirs.append(os.path.join(vcpkg_installed, 'lib'))
+    
+    # Windows OpenSSL and zlib libraries (vcpkg naming)
     libraries = ['libcrypto', 'zlib']
 else:
     # GCC/Clang compiler flags
@@ -57,11 +84,8 @@ ext_modules = [
     Extension(
         'pspdecrypt',
         sources=sources,
-        include_dirs=[
-            get_pybind_include(),
-            '.',
-            './libkirk',
-        ],
+        include_dirs=include_dirs,
+        library_dirs=library_dirs,
         libraries=libraries,
         extra_compile_args=extra_compile_args,
         extra_link_args=extra_link_args,

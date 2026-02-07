@@ -16,10 +16,10 @@ This workflow runs on every push and pull request to the `master` branch.
 - Runs test suite
 
 **Building:**
-- Builds binary wheels for Linux and macOS using `cibuildwheel`
-- Builds source distribution (sdist) for all platforms including Windows
+- Builds binary wheels for Linux, Windows, and macOS using `cibuildwheel`
+- Builds source distribution (sdist) for all platforms
+- Windows: Uses vcpkg for OpenSSL and zlib dependencies
 - Uploads artifacts for distribution
-- Note: Windows users can build from source using the sdist
 
 **Publishing:**
 - Automatically publishes to PyPI when a release is created
@@ -28,16 +28,13 @@ This workflow runs on every push and pull request to the `master` branch.
 ## Platform-Specific Notes
 
 ### Windows Build Support
-The package code has been updated for Windows compatibility with platform-specific compiler flags:
-- **Compiler Flags**: Automatically detects MSVC on Windows and uses `/O2 /std:c++14`
+Full Windows support with pre-built wheels:
+- **Compiler**: MSVC with `/O2 /std:c++14` flags
+- **Dependencies**: OpenSSL and zlib installed via vcpkg
 - **Library Linking**: Configured for `libcrypto` and `zlib` on Windows
+- **Pre-built Wheels**: Available for all supported Python versions (3.7-3.12)
 
-**Current Limitation**: Pre-built Windows wheels are not currently provided via PyPI due to OpenSSL/zlib dependency complexity. Windows users can build from source by:
-1. Installing Visual Studio with C++ support
-2. Installing OpenSSL and zlib (via vcpkg, chocolatey, or manual installation)
-3. Running `pip install pspdecrypt --no-binary :all:` to build from source
-
-Contributions to improve Windows wheel building are welcome!
+Windows wheels are built using vcpkg for dependency management, providing reliable OpenSSL and zlib libraries.
 
 ### macOS Build Support
 - Uses Homebrew to install OpenSSL and zlib dependencies
