@@ -1,0 +1,25 @@
+include README_PYTHON.md
+include PYTHON_API.md
+include Readme.md
+include LICENSE.TXT
+include CHANGELOG_PYTHON.md
+include INSTALL.md
+include requirements.txt
+include pyproject.toml
+include setup.py
+include test_python.py
+include examples.py
+
+# C/C++ source files
+include *.cpp
+include *.c
+include *.h
+recursive-include libkirk *.c *.h
+
+# Exclude build artifacts and git files
+global-exclude *.pyc
+global-exclude __pycache__
+global-exclude .git*
+global-exclude *.so
+global-exclude *.o
+global-exclude .DS_Store
