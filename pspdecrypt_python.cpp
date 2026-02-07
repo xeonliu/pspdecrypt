@@ -209,10 +209,13 @@ py::bytes decrypt_ipl3(py::bytes data) {
 // Helper function to decompress data
 py::bytes decompress(py::bytes data, int max_size = -1, bool verbose = false) {
     std::string input_str = data;
-    const u8* input_data = reinterpret_cast<const u8*>(input_str.data());
     u32 input_size = input_str.size();
 
-    if (!pspIsCompressed(input_data)) {
+    // Copy to mutable buffer since pspDecompress may modify the input
+    std::vector<u8> input_buffer(input_size);
+    memcpy(input_buffer.data(), input_str.data(), input_size);
+
+    if (!pspIsCompressed(input_buffer.data())) {
         throw std::runtime_error("Input data is not compressed");
     }
 
@@ -221,7 +224,7 @@ py::bytes decompress(py::bytes data, int max_size = -1, bool verbose = false) {
     std::vector<u8> output_buffer(output_capacity);
     std::string log_str;
     
-    int output_size = pspDecompress(const_cast<u8*>(input_data), input_size, 
+    int output_size = pspDecompress(input_buffer.data(), input_size, 
                                      output_buffer.data(), output_capacity, log_str);
     
     if (output_size < 0) {

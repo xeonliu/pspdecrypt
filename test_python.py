@@ -5,11 +5,14 @@ Simple test script for pspdecrypt Python bindings
 
 import sys
 import os
+import glob
 
-# Add the build directory to the path
-build_dir = 'build/lib.linux-x86_64-cpython-312'
-if os.path.exists(build_dir):
-    sys.path.insert(0, build_dir)
+# Try to find the build directory dynamically
+build_dirs = glob.glob('build/lib.*')
+if build_dirs:
+    sys.path.insert(0, build_dirs[0])
+elif os.path.exists('build/lib'):
+    sys.path.insert(0, 'build/lib')
 
 try:
     import pspdecrypt
