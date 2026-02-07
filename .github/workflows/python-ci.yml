@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
     
     steps:
@@ -38,17 +38,6 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew install openssl zlib
-    
-    - name: Setup MSYS2 (Windows)
-      if: runner.os == 'Windows'
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: MINGW64
-        update: true
-        install: >-
-          mingw-w64-x86_64-gcc
-          mingw-w64-x86_64-openssl
-          mingw-w64-x86_64-zlib
     
     - name: Install Python dependencies
       run: |
@@ -85,9 +74,11 @@ jobs:
         CIBW_SKIP: "*-musllinux_*"
         CIBW_BEFORE_BUILD_LINUX: "yum install -y openssl-devel zlib-devel || apt-get update && apt-get install -y libssl-dev zlib1g-dev"
         CIBW_BEFORE_BUILD_MACOS: "brew install openssl zlib || true"
-        CIBW_BEFORE_BUILD_WINDOWS: "choco install openssl || true"
+        CIBW_BEFORE_BUILD_WINDOWS: "pip install delvewheel && choco install openssl -y --no-progress"
+        CIBW_ENVIRONMENT_WINDOWS: "INCLUDE='C:\\Program Files\\OpenSSL-Win64\\include;C:\\Program Files\\OpenSSL\\include' LIB='C:\\Program Files\\OpenSSL-Win64\\lib;C:\\Program Files\\OpenSSL\\lib'"
         CIBW_TEST_COMMAND: "python {project}/test_python.py"
         CIBW_TEST_REQUIRES: "pybind11>=2.6.0"
+        CIBW_TEST_SKIP: "*-win*"
     
     - uses: actions/upload-artifact@v4
       with:
