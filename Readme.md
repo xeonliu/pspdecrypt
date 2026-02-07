@@ -1,4 +1,8 @@
 # pspdecrypt
+
+![Python CI](https://github.com/xeonliu/pspdecrypt/actions/workflows/python-ci.yml/badge.svg)
+![C/C++ CI](https://github.com/xeonliu/pspdecrypt/actions/workflows/c-cpp.yml/badge.svg)
+
 A quick and *dirty* tool to decrypt PSP binaries, and also PSP updaters (PSAR format)
 
 Licensed under GPLv3
@@ -15,6 +19,11 @@ Build and use the command-line tool for file decryption.
 
 ### Python Library
 The project also provides Python bindings for easy integration into Python projects. The library exposes decryption functions with support for both file I/O and byte streams while keeping the core algorithm implementation in C++.
+
+**Installation:**
+```bash
+pip install pspdecrypt
+```
 
 See [PYTHON_API.md](PYTHON_API.md) for detailed Python API documentation and examples.
 
