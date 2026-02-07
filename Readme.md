@@ -10,6 +10,24 @@ KL3E & KL4E implementation and PSAR extraction by artart78
 ## Usage
 `pspdecrypt` is capable of decrypting `PRX` and `IPL` files as well as decrypting and extracting `PSAR` archives and its contents, including IPL stages where possible.
 
+### Command Line Tool
+Build and use the command-line tool for file decryption.
+
+### Python Library
+The project also provides Python bindings for easy integration into Python projects. The library exposes decryption functions with support for both file I/O and byte streams while keeping the core algorithm implementation in C++.
+
+See [PYTHON_API.md](PYTHON_API.md) for detailed Python API documentation and examples.
+
+Quick Python example:
+```python
+import pspdecrypt
+
+# Decrypt a PRX file
+decrypted = pspdecrypt.decrypt_prx_file('encrypted.prx')
+with open('decrypted.elf', 'wb') as f:
+    f.write(decrypted)
+```
+
 ## Release Notes
 ### 1.0
  * Merges `pspdecrypt` and `psardecrypt` into one binary
