@@ -8,14 +8,14 @@ version = "1.0.0"
 description = "Python bindings for PSP decryption library"
 readme = "README_PYTHON.md"
 requires-python = ">=3.6"
-license = {text = "GPL-3.0"}
+license = {text = "GPL-3.0-or-later"}
 authors = [
     {name = "pspdecrypt contributors"}
 ]
+keywords = ["psp", "decryption", "prx", "elf", "playstation portable"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
@@ -25,6 +25,8 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: C++",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Emulators",
 ]
 dependencies = [
     "pybind11>=2.6.0"

@@ -10,21 +10,25 @@ jobs:
   build-linux:
 
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Make binaries
       run: make
     - name: Prepare Artifacts
       run: mkdir artifact && mv pspdecrypt artifact/. && cp Readme.md artifact/.
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: linux-binaries
         path: artifact
         
   build-windows:
     runs-on: windows-latest
+    permissions:
+      contents: read
     defaults:
       run:
         shell: msys2 {0}
@@ -36,21 +40,23 @@ jobs:
                 git
                 mingw-w64-x86_64-clang
                 mingw-w64-x86_64-openssl
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Makes Binaries
         run: make EXTRA_FLAG=-static
       - name: Prepare Artifacts
         run: mkdir artifact && mv pspdecrypt artifact/. && cp Readme.md artifact/.
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: windows-binaries
           path: artifact
         
   build-macos:
     runs-on: macos-latest
+    permissions:
+      contents: read
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Make binaries
       run: |
         export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
@@ -58,7 +64,7 @@ jobs:
     - name: Prepare Artifacts
       run: mkdir artifact && mv pspdecrypt artifact/. && cp Readme.md artifact/.
     - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: macos-binaries
         path: artifact
