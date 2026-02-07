@@ -12,7 +12,7 @@ from kirk_engine import kirk_CMD1, kirk_CMD7, KIRK_OPERATION_SUCCESS
 # These are publicly known keys used for PSP decryption
 PRX_KEYS = {
     # Format: tag -> (key, description)
-    0xD91605F0: (bytes.fromhex('C3248 9D380087B24E4CD749E49D1D34D1'), 'keys260_0'),
+    0xD91605F0: (bytes.fromhex('C32489D380087B24E4CD749E49D1D34D1'), 'keys260_0'),
     0xD91606F0: (bytes.fromhex('F3AC6E7C040A23E70D33D82473392B4A'), 'keys260_1'),
     0xD91608F0: (bytes.fromhex('72B439FF349BAE8230344A1DA2D8B43C'), 'keys260_2'),
     0xD91609F0: (bytes.fromhex('CAFBBFC750EAB4408E445C6353CE80B1'), 'keys280_0'),

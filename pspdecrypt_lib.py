@@ -27,7 +27,7 @@ def get_psp_tag(buf: bytes) -> int:
     Get the PSP module tag as an unsigned int.
     
     Args:
-        buf: Pointer to the ~PSP header buffer (size >= 0x150 bytes)
+        buf: Buffer containing the ~PSP header (size >= 0x150 bytes)
     
     Returns:
         PSP module tag
@@ -43,7 +43,7 @@ def get_elf_size(buf: bytes) -> int:
     Get the size of the decrypted & decompressed ELF module.
     
     Args:
-        buf: Pointer to the ~PSP header buffer (size >= 0x150 bytes)
+        buf: Buffer containing the ~PSP header (size >= 0x150 bytes)
     
     Returns:
         The ELF data size
@@ -59,7 +59,7 @@ def get_psp_size(buf: bytes) -> int:
     Get the size of the encrypted (possibly compressed first) ELF/PRX data + the PSP header structure.
     
     Args:
-        buf: Pointer to the ~PSP header buffer (size >= 0x150 bytes)
+        buf: Buffer containing the ~PSP header (size >= 0x150 bytes)
     
     Returns:
         The PSP data size including header
@@ -75,7 +75,7 @@ def get_comp_size(buf: bytes) -> int:
     Get the size of the decrypted module data (possibly compressed).
     
     Args:
-        buf: Pointer to the ~PSP header buffer (size >= 0x150 bytes)
+        buf: Buffer containing the ~PSP header (size >= 0x150 bytes)
     
     Returns:
         The decrypted data size
