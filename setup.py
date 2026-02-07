@@ -7,6 +7,7 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import sys
 import os
+import platform
 import subprocess
 
 class get_pybind_include(object):
@@ -35,6 +36,22 @@ sources = [
     'libkirk/amctrl.c',
 ]
 
+# Platform-specific compiler flags and libraries
+extra_compile_args = []
+extra_link_args = []
+libraries = []
+
+if sys.platform == 'win32':
+    # MSVC compiler flags
+    extra_compile_args = ['/O2', '/std:c++14']
+    # Windows OpenSSL and zlib libraries
+    libraries = ['libcrypto', 'zlib']
+else:
+    # GCC/Clang compiler flags
+    extra_compile_args = ['-O3', '-std=c++11', '-Wno-deprecated-declarations']
+    # Unix-like systems
+    libraries = ['z', 'crypto']
+
 # Extension module
 ext_modules = [
     Extension(
@@ -45,8 +62,9 @@ ext_modules = [
             '.',
             './libkirk',
         ],
-        libraries=['z', 'crypto'],
-        extra_compile_args=['-O3', '-std=c++11', '-Wno-deprecated-declarations'],
+        libraries=libraries,
+        extra_compile_args=extra_compile_args,
+        extra_link_args=extra_link_args,
         language='c++',
     ),
 ]
@@ -70,7 +88,6 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
@@ -83,5 +100,4 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: System :: Emulators',
     ],
-    keywords='psp, decryption, prx, elf, playstation portable',
 )
